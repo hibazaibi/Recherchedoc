@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Modifier un Document</title></head>
+<body>
+<h1>Modifier le Document</h1>
+
+<form th:action="@{/documents/edit/{id}(id=${document.id})}" method="post">
+    <label for="titre">Titre:</label>
+    <input type="text" id="titre" name="titre" th:value="${document.titre}" required />
+
+    <label for="motsCles">Mots-Clés:</label>
+    <input type="text" id="motsCles" name="motsCles" th:value="${document.motsCles}" />
+
+    <label for="theme">Thème:</label>
+    <input type="text" id="theme" name="theme" th:value="${document.theme}" />
+
+    <label for="auteur">Auteur:</label>
+    <select id="auteur" name="auteurId" required>
+        <option th:each="auteur : ${auteurs}" th:value="${auteur.id}" th:text="${auteur.nom}"
+                th:selected="${auteur.id == document.auteur.id}"></option>
+    </select>
+
+    <button type="submit">Enregistrer les modifications</button>
+</form>
+
+<a th:href="@{/documents}">Retour à la liste des documents</a>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter un Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Ajouter un Document</h1>
+    <form th:action="@{/documents/add}" th:object="${document}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="titre" class="form-label">Titre:</label>
+            <input type="text" id="titre" th:field="*{titre}" class="form-control" required/>
+        </div>
+
+        <div class="mb-3">
+            <label for="motsCles" class="form-label">Mots-Clés:</label>
+            <input type="text" id="motsCles" th:field="*{motsCles}" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label for="theme" class="form-label">Thème:</label>
+            <input type="text" id="theme" th:field="*{theme}" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label for="resume" class="form-label">Résumé:</label>
+            <textarea id="resume" th:field="*{resume}" rows="4" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="publicationDate" class="form-label">Date de publication:</label>
+            <input type="date" id="publicationDate" th:field="*{publicationDate}" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="typeFichier" class="form-label">Type de fichier:</label>
+            <input type="text" id="typeFichier" th:field="*{typeFichier}" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="file" class="form-label">Ajouter un fichier:</label>
+            <input type="file" id="file" name="file" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="auteur" class="form-label">Auteur:</label>
+            <select id="auteur" th:field="*{auteur.id}" class="form-select" required>
+                <option value="">Sélectionner un Auteur</option>
+                <option th:each="auteur : ${auteurs}" th:value="${auteur.id}" th:text="${auteur.nom}"></option>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a th:href="@{/documents/listdoc}" class="btn btn-secondary">Retour</a>
+            <button type="submit" class="btn btn-success">Ajouter</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
