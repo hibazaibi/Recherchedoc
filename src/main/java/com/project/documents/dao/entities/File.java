@@ -1,4 +1,4 @@
-package com.project.documents.file;
+package com.project.documents.dao.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

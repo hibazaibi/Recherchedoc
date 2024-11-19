@@ -1,5 +1,9 @@
-package com.project.documents.file;
+package com.project.documents.controllers;
 
+import com.project.documents.dao.entities.File;
+import com.project.documents.dao.repositories.FileRepository;
+import com.project.documents.services.FileService;
+import com.project.documents.services.ResponseData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;

@@ -1,5 +1,6 @@
-package com.project.documents.docs;
+package com.project.documents.dao.repositories;
 
+import com.project.documents.dao.entities.Documents;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

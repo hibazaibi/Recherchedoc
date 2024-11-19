@@ -1,5 +1,6 @@
-package com.project.documents.file;
+package com.project.documents.services;
 
+import com.project.documents.dao.entities.File;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileService1 {

@@ -1,5 +1,7 @@
-package com.project.documents.docs;
+package com.project.documents.services;
 
+import com.project.documents.dao.entities.Documents;
+import com.project.documents.dao.repositories.DocumentsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;

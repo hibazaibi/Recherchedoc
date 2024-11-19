@@ -1,4 +1,4 @@
-package com.project.documents.Auteur;
+package com.project.documents.dao.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

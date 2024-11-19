@@ -1,4 +1,4 @@
-package com.project.documents.file;
+package com.project.documents.services;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

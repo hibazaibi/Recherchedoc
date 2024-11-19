@@ -1,10 +1,12 @@
-package com.project.documents.docs;
+package com.project.documents.controllers;
 
 
-import com.project.documents.Auteur.Auteur;
-import com.project.documents.Auteur.AuteurService;
-import com.project.documents.file.File;
-import com.project.documents.file.FileService;
+import com.project.documents.services.DocumentsService;
+import com.project.documents.dao.entities.Auteur;
+import com.project.documents.services.AuteurService;
+import com.project.documents.dao.entities.Documents;
+import com.project.documents.dao.entities.File;
+import com.project.documents.services.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

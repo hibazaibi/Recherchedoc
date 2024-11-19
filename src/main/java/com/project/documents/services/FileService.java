@@ -1,5 +1,7 @@
-package com.project.documents.file;
+package com.project.documents.services;
 
+import com.project.documents.dao.entities.File;
+import com.project.documents.dao.repositories.FileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,7 +1,5 @@
-package com.project.documents.docs;
+package com.project.documents.dao.entities;
 
-import com.project.documents.Auteur.Auteur;
-import com.project.documents.file.File;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

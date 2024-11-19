@@ -1,4 +1,6 @@
-package com.project.documents.Auteur;
+package com.project.documents.controllers;
+import com.project.documents.services.AuteurService;
+import com.project.documents.dao.entities.Auteur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
