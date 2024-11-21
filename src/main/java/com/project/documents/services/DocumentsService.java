@@ -34,6 +34,9 @@ public class DocumentsService {
             document.setTitre(updatedDocument.getTitre());
             document.setMotsCles(updatedDocument.getMotsCles());
             document.setTheme(updatedDocument.getTheme());
+            document.setResume(updatedDocument.getResume());
+            document.setPublicationDate(updatedDocument.getPublicationDate());
+            document.setTypeFichier(updatedDocument.getTypeFichier());
             document.setAuteur(updatedDocument.getAuteur());
             documentRepository.save(document);
         }}

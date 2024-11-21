@@ -37,14 +37,6 @@ import java.util.List;
             return "documents/listdoc";
         }
 
-        @PostMapping("/search")
-        public String searchDocuments(@RequestParam String titre, @RequestParam String motsCles,
-                                      @RequestParam String theme, @RequestParam(required = false) Long auteurId, Model model) {
-            List<Documents> documents = documentService.searchDocuments(titre, motsCles, theme, auteurId);
-            model.addAttribute("documents", documents);
-            model.addAttribute("auteurs", auteurService.getAllAuteurs());
-            return "documents/listdoc";
-        }
     @GetMapping("/add")
     public String showAddDocumentForm(Model model) {
         Documents document = new Documents();
@@ -82,7 +74,13 @@ import java.util.List;
     }
 
     @PostMapping("/edit/{id}")
-    public String updateDocument(@PathVariable Long id, @ModelAttribute Documents document) {
+    public String updateDocument(@PathVariable Long id,@RequestParam Long auteurId, @ModelAttribute Documents document) {
+        Auteur auteur = auteurService.getAuteurById(auteurId);
+        if (auteur != null) {
+            document.setAuteur(auteur);
+        } else {
+            throw new RuntimeException("Auteur not found");
+        }
         documentService.updateDocument(id, document);
         return "redirect:/documents";
     }
@@ -91,6 +89,14 @@ import java.util.List;
     public String deleteDocument(@PathVariable Long id) {
         documentService.deleteDocument(id);
         return "redirect:/documents";
+    }
+    @PostMapping("/search")
+    public String searchDocuments(@RequestParam String titre, @RequestParam String motsCles,
+                                  @RequestParam String theme, @RequestParam(required = false) Long auteurId, Model model) {
+        List<Documents> documents = documentService.searchDocuments(titre, motsCles, theme, auteurId);
+        model.addAttribute("documents", documents);
+        model.addAttribute("auteurs", auteurService.getAllAuteurs());
+        return "documents/listdoc";
     }
     }
 

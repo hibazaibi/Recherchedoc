@@ -3,62 +3,84 @@
 <head>
     <title>Ajouter un Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-light">
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Ajouter un Document</h1>
-    <form th:action="@{/documents/add}" th:object="${document}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
-        <div class="mb-3">
-            <label for="titre" class="form-label">Titre:</label>
-            <input type="text" id="titre" th:field="*{titre}" class="form-control" required/>
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h2><i class="fas fa-file-upload me-2"></i>Ajouter un Document</h2>
         </div>
+        <div class="card-body">
+            <form th:action="@{/documents/add}" th:object="${document}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="titre" class="form-label"><i class="fas fa-heading me-2"></i>Titre:</label>
+                        <input type="text" id="titre" th:field="*{titre}" class="form-control" placeholder="Entrez le titre du document" required/>
+                    </div>
 
-        <div class="mb-3">
-            <label for="motsCles" class="form-label">Mots-Clés:</label>
-            <input type="text" id="motsCles" th:field="*{motsCles}" class="form-control" />
-        </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="motsCles" class="form-label"><i class="fas fa-key me-2"></i>Mots-Clés:</label>
+                        <input type="text" id="motsCles" th:field="*{motsCles}" class="form-control" placeholder="Ajoutez des mots-clés séparés par des virgules" />
+                    </div>
+                </div>
 
-        <div class="mb-3">
-            <label for="theme" class="form-label">Thème:</label>
-            <input type="text" id="theme" th:field="*{theme}" class="form-control" />
-        </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="theme" class="form-label"><i class="fas fa-tags me-2"></i>Thème:</label>
+                        <input type="text" id="theme" th:field="*{theme}" class="form-control" placeholder="Indiquez le thème du document" />
+                    </div>
 
-        <div class="mb-3">
-            <label for="resume" class="form-label">Résumé:</label>
-            <textarea id="resume" th:field="*{resume}" rows="4" class="form-control"></textarea>
-        </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="resume" class="form-label"><i class="fas fa-file-alt me-2"></i>Résumé:</label>
+                        <textarea id="resume" th:field="*{resume}" rows="2" class="form-control" placeholder="Ajoutez un résumé"></textarea>
+                    </div>
+                </div>
 
-        <div class="mb-3">
-            <label for="publicationDate" class="form-label">Date de publication:</label>
-            <input type="date" id="publicationDate" th:field="*{publicationDate}" class="form-control" required />
-        </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="publicationDate" class="form-label"><i class="fas fa-calendar-alt me-2"></i>Date de publication:</label>
+                        <input type="date" id="publicationDate" th:field="*{publicationDate}" class="form-control" required />
+                    </div>
 
-        <div class="mb-3">
-            <label for="typeFichier" class="form-label">Type de fichier:</label>
-            <input type="text" id="typeFichier" th:field="*{typeFichier}" class="form-control" required />
-        </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="typeFichier" class="form-label"><i class="fas fa-file me-2"></i>Type de fichier:</label>
+                        <input type="text" id="typeFichier" th:field="*{typeFichier}" class="form-control" placeholder="Exemple : PDF, DOCX" required />
+                    </div>
+                </div>
 
-        <div class="mb-3">
-            <label for="file" class="form-label">Ajouter un fichier:</label>
-            <input type="file" id="file" name="file" class="form-control">
-        </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="file" class="form-label"><i class="fas fa-upload me-2"></i>Ajouter un fichier:</label>
+                        <input type="file" id="file" name="file" class="form-control">
+                    </div>
 
-        <div class="mb-3">
-            <label for="auteur" class="form-label">Auteur:</label>
-            <select id="auteur" th:field="*{auteur.id}" class="form-select" required>
-                <option value="">Sélectionner un Auteur</option>
-                <option th:each="auteur : ${auteurs}" th:value="${auteur.id}" th:text="${auteur.nom}"></option>
-            </select>
-        </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="auteur" class="form-label"><i class="fas fa-user me-2"></i>Auteur:</label>
+                        <select id="auteur" th:field="*{auteur.id}" class="form-select" required>
+                            <option value="">Sélectionner un Auteur</option>
+                            <option th:each="auteur : ${auteurs}" th:value="${auteur.id}" th:text="${auteur.nom}"></option>
+                        </select>
+                    </div>
+                </div>
 
-        <div class="d-flex justify-content-between">
-            <a th:href="@{/documents/listdoc}" class="btn btn-secondary">Retour</a>
-            <button type="submit" class="btn btn-success">Ajouter</button>
+                <div class="d-flex justify-content-between">
+                    <a th:href="@{/documents/listdoc}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Retour
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check me-2"></i>Ajouter
+                    </button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </body>
 </html>
+
+
 

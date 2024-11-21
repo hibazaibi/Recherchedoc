@@ -16,7 +16,6 @@ public class FileService implements FileService1 {
     @Override
     public File saveAttachment(MultipartFile file) throws Exception {
         if (file == null) {
-            // return null or throw an exception, depending on your use case
             return null;
         }
 
