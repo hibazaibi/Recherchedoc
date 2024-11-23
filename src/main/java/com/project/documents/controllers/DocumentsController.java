@@ -15,8 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -84,22 +86,41 @@ import java.util.List;
     }
 
     @PostMapping("/edit/{id}")
-    public String updateDocument(@PathVariable Long id,@RequestParam Long auteurId, @RequestParam Long themeId, @ModelAttribute Documents document) {
-        Auteur auteur = auteurService.getAuteurById(auteurId);
-        if (auteur != null) {
-            document.setAuteur(auteur);
-        } else {
-            throw new RuntimeException("Auteur not found");
-        }
+    public String updateDocument(@PathVariable Long id,
+                                 @RequestParam String titre,
+                                 @RequestParam String motsCles,
+                                 @RequestParam String resume,
+                                 @RequestParam Long themeId,
+                                 @RequestParam Long auteurId,
+                                 @RequestParam String typeFichier,
+                                 @RequestParam String publicationDate,
+                                 RedirectAttributes redirectAttributes) {
+
+        // Fetch the existing document
+        Documents document = documentService.getDocumentById(id);
+
+        // Update the fields
+        document.setTitre(titre);
+        document.setMotsCles(motsCles);
+        document.setResume(resume);
+        document.setTypeFichier(typeFichier);
+        document.setPublicationDate(LocalDate.parse(publicationDate));
+
+        // Fetch and set the theme
         Theme theme = themeService.getThemeById(themeId);
-        if (theme != null) {
-            document.setTheme(theme);
-        } else {
-            throw new RuntimeException("Theme not found");
-        }
-        documentService.updateDocument(id, document);
+        document.setTheme(theme);
+
+        // Fetch and set the author
+        Auteur auteur = auteurService.getAuteurById(auteurId);
+        document.setAuteur(auteur);
+
+        // Save the updated document
+        documentService.saveDocument(document);
+
+        redirectAttributes.addFlashAttribute("success", "Document mis à jour avec succès.");
         return "redirect:/documents";
     }
+
 
     @GetMapping("/delete/{id}")
     public String deleteDocument(@PathVariable Long id) {

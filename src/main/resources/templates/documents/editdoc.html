@@ -60,8 +60,15 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="theme" class="form-label"><i class="fas fa-tag"></i> Thème</label>
-                    <input type="text" id="theme" name="theme" th:value="${document.theme}" class="form-control" placeholder="Entrer le thème" />
-                </div>
+                    <select id="theme" name="themeId" class="form-select" required>
+                        <option value="" disabled>Choisir un Thème</option>
+                        <option th:each="theme : ${themes}"
+                                th:value="${theme.id}"
+                                th:text="${theme.nom}"
+                                th:selected="${document.theme != null and theme.id == document.theme.id}">
+                        </option>
+                    </select>
+                    </div>
                 <div class="col-md-6 mb-3">
                     <label for="resume" class="form-label"><i class="fas fa-file-alt"></i> Résumé</label>
                     <textarea id="resume" name="resume" th:value="${document.resume}" rows="4" class="form-control" placeholder="Entrer le résumé"></textarea>
