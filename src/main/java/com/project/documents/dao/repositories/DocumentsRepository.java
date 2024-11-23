@@ -8,6 +8,8 @@ import java.util.List;
 
 @Repository
 public interface DocumentsRepository extends JpaRepository<Documents, Long> {
-        List<Documents> findByTitreOrMotsClesOrTheme(String titre, String motsCles, String theme);
-        List<Documents> findByTitreOrMotsClesOrThemeAndAuteurId(String titre, String motsCles, String theme, Long auteurId);
+        List<Documents> findByTitreOrMotsCles(String titre, String motsCles);
+        List<Documents> findByTitreOrMotsClesOrThemeId(String titre, String motsCles, Long themeId);
+        List<Documents> findByTitreOrMotsClesAndAuteurId(String titre, String motsCles, Long auteurId);
+        List<Documents> findByTitreOrMotsClesOrThemeIdAndAuteurId(String titre, String motsCles, Long themeId, Long auteurId);
 }

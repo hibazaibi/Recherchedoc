@@ -1,6 +1,7 @@
 package com.project.documents.services;
 
 import com.project.documents.dao.entities.Documents;
+import com.project.documents.dao.entities.Theme;
 import com.project.documents.dao.repositories.DocumentsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,10 @@ public class DocumentsService {
 
         @Autowired
         private DocumentsRepository documentRepository;
+    @Autowired
+    private ThemeService themeService;
 
-        public List<Documents> getAllDocuments() {
+    public List<Documents> getAllDocuments() {
             return documentRepository.findAll();
         }
     public Documents getDocumentById(Long id) {
@@ -33,7 +36,10 @@ public class DocumentsService {
         if (document != null) {
             document.setTitre(updatedDocument.getTitre());
             document.setMotsCles(updatedDocument.getMotsCles());
-            document.setTheme(updatedDocument.getTheme());
+            if (document.getTheme() != null) {
+                Theme theme = themeService.getThemeById(updatedDocument.getTheme().getId());
+                document.setTheme(theme);
+            }
             document.setResume(updatedDocument.getResume());
             document.setPublicationDate(updatedDocument.getPublicationDate());
             document.setTypeFichier(updatedDocument.getTypeFichier());
@@ -41,12 +47,18 @@ public class DocumentsService {
             documentRepository.save(document);
         }}
 
-        public List<Documents> searchDocuments(String titre, String motsCles, String theme, Long auteurId) {
-            if (auteurId != null) {
-                return documentRepository.findByTitreOrMotsClesOrThemeAndAuteurId(titre, motsCles, theme, auteurId);
-            }
-            return documentRepository.findByTitreOrMotsClesOrTheme(titre, motsCles, theme);
+    public List<Documents> searchDocuments(String titre, String motsCles, Long themeId, Long auteurId) {
+        if (auteurId != null && themeId != null) {
+            return documentRepository.findByTitreOrMotsClesOrThemeIdAndAuteurId(titre, motsCles, themeId, auteurId);
+        } else if (auteurId != null) {
+            return documentRepository.findByTitreOrMotsClesAndAuteurId(titre, motsCles, auteurId);
+        } else if (themeId != null) {
+            return documentRepository.findByTitreOrMotsClesOrThemeId(titre, motsCles, themeId);
+        } else {
+            return documentRepository.findByTitreOrMotsCles(titre, motsCles);
         }
+    }
+
     }
 
 

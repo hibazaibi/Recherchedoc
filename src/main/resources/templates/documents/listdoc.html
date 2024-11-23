@@ -86,8 +86,11 @@
             <input type="text" name="motsCles" class="form-control" placeholder="Recherche par mots-clés" />
         </div>
         <div class="col-md-3">
-            <input type="text" name="theme" class="form-control" placeholder="Recherche par thème" />
-        </div>
+                <select name="themeId" class="form-select">
+                    <option value="">Sélectionner Thème</option>
+                    <option th:each="theme : ${themes}" th:value="${theme.id}" th:text="${theme.nom}"></option>
+                </select>
+            </div>
         <div class="col-md-3">
             <select name="auteurId" class="form-select">
                 <option value="">Sélectionner Auteur</option>
@@ -117,8 +120,7 @@
             <tr th:each="document : ${documents}">
                 <td th:text="${document.titre}">Titre</td>
                 <td th:text="${document.motsCles}">Mots-Clés</td>
-                <td th:text="${document.theme}">Thème</td>
-                <td th:text="${document.auteur.nom}">Auteur</td>
+                <td th:text="${document.theme != null ? document.theme.nom : 'Pas de thème'}">Thème</td>                <td th:text="${document.auteur.nom}">Auteur</td>
                 <td th:text="${document.resume}">Résumé</td>
                 <td th:text="${document.publicationDate.toString()}">Date de Publication</td>
                 <td>
@@ -127,7 +129,7 @@
                             <i class="fas fa-download"></i>
                         </a>
                     </div>
-                    <div th:if="${document.fichier == null}" class="text-muted">No file</div>
+                    <div th:if="${document.fichier == null}" class="text-muted">Pas de fichier</div>
                 </td>
                 <td>
                     <a th:href="@{/documents/edit/{id}(id=${document.id})}" class="btn btn-sm btn-warning">

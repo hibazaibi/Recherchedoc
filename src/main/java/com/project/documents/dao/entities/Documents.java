@@ -19,7 +19,10 @@ public class Documents {
 
     private String titre;
     private String motsCles;
-    private String theme;
+
+    @ManyToOne
+    @JoinColumn(name = "theme_id")
+    private Theme theme;
     private String resume;
     private LocalDate publicationDate;
     private String typeFichier;
