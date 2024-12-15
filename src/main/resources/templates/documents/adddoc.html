@@ -6,36 +6,50 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-light">
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white text-center">
             <h2><i class="fas fa-file-upload me-2"></i>Ajouter un Document</h2>
         </div>
         <div class="card-body">
-            <form th:action="@{/documents/add}" th:object="${document}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <form th:action="@{/documents/add}" th:object="${documentForm}" method="post" enctype="multipart/form-data" class="needs-validation">
+                <div th:if="${error}" class="alert alert-danger">
+                    <p th:text="${error}"></p>
+                </div>
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="titre" class="form-label"><i class="fas fa-heading me-2"></i>Titre:</label>
-                        <input type="text" id="titre" th:field="*{titre}" class="form-control" placeholder="Entrez le titre du document" required/>
+                        <input type="text" id="titre" th:field="*{titre}" class="form-control" placeholder="Entrez le titre du document" required minlength="3" maxlength="100" />
+                        <div class="text-danger" th:if="${#fields.hasErrors('titre')}" th:errors="*{titre}"></div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="motsCles" class="form-label"><i class="fas fa-key me-2"></i>Mots-Clés:</label>
                         <input type="text" id="motsCles" th:field="*{motsCles}" class="form-control" placeholder="Ajoutez des mots-clés séparés par des virgules" />
+                        <div class="text-danger" th:if="${#fields.hasErrors('motsCles')}" th:errors="*{motsCles}"></div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <select id="theme" th:field="*{theme.id}" class="form-select" required>
+                        <label for="theme" class="form-label"><i class="fas fa-tags me-2"></i>Thème:</label>
+                        <select id="theme" th:field="*{themeId}" class="form-select" required>
                             <option value="">Sélectionnez un thème</option>
-                            <option th:each="theme : ${themes}" th:value="${theme.id}" th:text="${theme.nom}"></option>
+                            <option th:each="theme : ${themes}"
+                                    th:value="${theme.id}"
+                                    th:text="${theme.nom}"
+                                    th:selected="${theme.id == documentForm.themeId}"></option>
                         </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('themeId')}" th:errors="*{themeId}"></div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="resume" class="form-label"><i class="fas fa-file-alt me-2"></i>Résumé:</label>
-                        <textarea id="resume" th:field="*{resume}" rows="2" class="form-control" placeholder="Ajoutez un résumé"></textarea>
+                        <textarea id="resume" th:field="*{resume}" rows="2" class="form-control" placeholder="Ajoutez un résumé" minlength="10" maxlength="500"></textarea>
+                        <div class="text-danger" th:if="${#fields.hasErrors('resume')}" th:errors="*{resume}"></div>
                     </div>
                 </div>
 
@@ -43,26 +57,39 @@
                     <div class="col-md-6 mb-3">
                         <label for="publicationDate" class="form-label"><i class="fas fa-calendar-alt me-2"></i>Date de publication:</label>
                         <input type="date" id="publicationDate" th:field="*{publicationDate}" class="form-control" required />
+                        <div class="text-danger" th:if="${#fields.hasErrors('publicationDate')}" th:errors="*{publicationDate}"></div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="typeFichier" class="form-label"><i class="fas fa-file me-2"></i>Type de fichier:</label>
-                        <input type="text" id="typeFichier" th:field="*{typeFichier}" class="form-control" placeholder="Exemple : PDF, DOCX" required />
+                        <select id="typeFichier" th:field="*{typeFichier}" class="form-select" required>
+                            <option value="">Sélectionnez un type de fichier</option>
+                            <option th:each="type : ${fileTypes}"
+                                    th:value="${type}"
+                                    th:text="${type}"
+                                    th:selected="${type == documentForm.typeFichier}"></option>
+                        </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('typeFichier')}" th:errors="*{typeFichier}"></div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="file" class="form-label"><i class="fas fa-upload me-2"></i>Ajouter un fichier:</label>
-                        <input type="file" id="file" name="file" class="form-control">
+                        <label for="fichier" class="form-label"><i class="fas fa-upload me-2"></i>Ajouter un fichier:</label>
+                        <input type="file" id="fichier" name="fichier" th:field="*{fichier}" class="form-control" required>
+                        <div class="text-danger" th:if="${#fields.hasErrors('fichier')}" th:errors="*{fichier}"></div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="auteur" class="form-label"><i class="fas fa-user me-2"></i>Auteur:</label>
-                        <select id="auteur" th:field="*{auteur.id}" class="form-select" required>
+                        <select id="auteur" th:field="*{auteurId}" class="form-select" required>
                             <option value="">Sélectionner un Auteur</option>
-                            <option th:each="auteur : ${auteurs}" th:value="${auteur.id}" th:text="${auteur.nom}"></option>
+                            <option th:each="auteur : ${auteurs}"
+                                    th:value="${auteur.id}"
+                                    th:text="${auteur.nom}"
+                                    th:selected="${auteur.id == documentForm.auteurId}"></option>
                         </select>
+                        <div class="text-danger" th:if="${#fields.hasErrors('auteurId')}" th:errors="*{auteurId}"></div>
                     </div>
                 </div>
 
@@ -83,6 +110,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </body>
 </html>
-
-
-

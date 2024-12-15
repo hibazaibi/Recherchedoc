@@ -1,8 +1,8 @@
-package com.project.documents.controllers;
+package com.project.documents.web.controllers;
 
 import com.project.documents.dao.entities.File;
-import com.project.documents.services.FileService;
-import com.project.documents.services.ResponseData;
+import com.project.documents.business.servicesImpl.FileServiceImpl;
+import com.project.documents.business.services.ResponseData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequiredArgsConstructor
 public class FileController {
 
-    private final FileService attachmentService;
+    private final FileServiceImpl attachmentService;
 
     @PostMapping("/upload")
     public ResponseData uploadFile(@RequestParam("file") MultipartFile file) throws Exception {

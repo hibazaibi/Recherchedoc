@@ -1,9 +1,9 @@
-package com.project.documents.services;
+package com.project.documents.business.services;
 
 import com.project.documents.dao.entities.File;
 import org.springframework.web.multipart.MultipartFile;
 
-public interface FileService1 {
+public interface FileService {
     File saveAttachment(MultipartFile file) throws Exception;
 
     File getAttachment(String fileId) throws Exception;

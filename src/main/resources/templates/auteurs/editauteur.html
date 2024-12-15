@@ -3,26 +3,46 @@
 <head>
     <title>Modifier un Auteur</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-light">
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Modifier un Auteur</h1>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <div class="card shadow p-4">
-        <form th:action="@{/auteurs/edit/{id}(id=${auteur.id})}" method="post">
-            <div class="mb-3">
-                <label for="nom" class="form-label">Nom</label>
-                <input type="text" id="nom" name="nom" th:value="${auteur.nom}" class="form-control" placeholder="Entrer le nom de l'auteur" required />
-            </div>
-            <div class="d-flex justify-content-between">
-                <a th:href="@{/auteurs}" class="btn btn-secondary">Retour</a>
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-            </div>
-        </form>
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h2><i class="fas fa-edit me-2"></i>Modifier un Auteur</h2>
+        </div>
+        <div class="card-body">
+            <form th:object="${auteur}" th:action="@{/auteurs/edit/{id}(id=${auteur.id})}" method="post" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="nom" class="form-label"><i class="fas fa-user-edit me-2"></i>Nom:</label>
+                    <input type="text" id="nom" name="nom"
+                           th:field="*{nom}"
+                           th:classappend="${#fields.hasErrors('nom')}? 'is-invalid' : ''"
+                           class="form-control"
+                           placeholder="Entrer le nom de l'auteur"
+                           required pattern="[A-Za-zÀ-ÖØ-öø-ÿ ]+"
+                           title="Le nom doit contenir uniquement des lettres." />
+                    <div th:if="${#fields.hasErrors('nom')}" class="invalid-feedback">
+                        <span th:errors="*{nom}"></span>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a th:href="@{/auteurs}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Retour
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
 </body>
 </html>
-

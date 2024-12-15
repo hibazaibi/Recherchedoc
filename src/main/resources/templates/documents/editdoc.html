@@ -42,18 +42,24 @@
     </style>
 </head>
 <body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container mt-5">
     <h1 class="text-center mb-4 text-primary"><i class="fas fa-edit"></i> Modifier le Document</h1>
     <div class="card shadow p-4">
-        <form th:action="@{/documents/edit/{id}(id=${document.id})}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        <form th:action="@{/documents/edit/{id}(id=${document.id})}" th:object="${documentForm}" method="post" enctype="multipart/form-data" class="needs-validation">
             <div class="row">
-                <div class="col-md-6 mb-3">
+            <div th:if="${error}" class="alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+            <div class="col-md-6 mb-3">
                     <label for="titre" class="form-label"><i class="fas fa-heading"></i> Titre</label>
-                    <input type="text" id="titre" name="titre" th:value="${document.titre}" class="form-control" placeholder="Entrer le titre du document" required />
-                </div>
+                    <input type="text" id="titre" name="titre" th:value="${documentForm.titre}" class="form-control" placeholder="Entrer le titre du document" required minlength="3" maxlength="100" />
+                <div class="text-danger" th:if="${#fields.hasErrors('titre')}" th:errors="*{titre}"></div>
+            </div>
                 <div class="col-md-6 mb-3">
                     <label for="motsCles" class="form-label"><i class="fas fa-keywords"></i> Mots-Clés</label>
-                    <input type="text" id="motsCles" name="motsCles" th:value="${document.motsCles}" class="form-control" placeholder="Entrer les mots-clés" />
+                    <input type="text" id="motsCles" name="motsCles" th:value="${documentForm.motsCles}" class="form-control" placeholder="Entrer les mots-clés" />
                 </div>
             </div>
 
@@ -71,26 +77,39 @@
                     </div>
                 <div class="col-md-6 mb-3">
                     <label for="resume" class="form-label"><i class="fas fa-file-alt"></i> Résumé</label>
-                    <textarea id="resume" name="resume" th:value="${document.resume}" rows="4" class="form-control" placeholder="Entrer le résumé"></textarea>
-                </div>
+                    <textarea id="resume" name="resume" th:text="${document.resume}" rows="4" class="form-control" placeholder="Entrer le résumé" minlength="10" maxlength="500"></textarea>                </div>
+                <div class="text-danger" th:if="${#fields.hasErrors('resume')}" th:errors="*{resume}"></div>
+
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="publicationDate" class="form-label"><i class="fas fa-calendar-day"></i> Date de publication</label>
                     <input type="date" id="publicationDate" name="publicationDate" th:value="${document.publicationDate}" class="form-control" required />
+                    <div class="text-danger" th:if="${#fields.hasErrors('publicationDate')}" th:errors="*{publicationDate}"></div>
+
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="typeFichier" class="form-label"><i class="fas fa-file"></i> Type de fichier</label>
-                    <input type="text" id="typeFichier" name="typeFichier" th:value="${document.typeFichier}" class="form-control" placeholder="Entrer le type de fichier" required />
+                    <select id="typeFichier" name="typeFichier" class="form-select" required>
+                        <option value="" disabled>Choisir le type de fichier</option>
+                        <option th:each="fileType : ${fileTypes}"
+                                th:value="${fileType}"
+                                th:text="${fileType}"
+                                th:selected="${fileType == document.typeFichier}">
+                        </option>
+                    </select>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="file" class="form-label"><i class="fas fa-upload"></i> Fichier</label>
-                    <input type="file" id="file" name="file" class="form-control" />
+                    <input type="file" id="file" name="fichier" class="form-control" />
+                    <span th:text="${document.fichier.fileName}"></span>
+                    <div class="text-danger" th:if="${#fields.hasErrors('fichier')}" th:errors="*{fichier}"></div>
                 </div>
+
                 <div class="col-md-6 mb-3">
                     <label for="auteur" class="form-label"><i class="fas fa-user"></i> Auteur</label>
                     <select id="auteur" name="auteurId" class="form-select" required>
@@ -100,6 +119,7 @@
                     </select>
                 </div>
             </div>
+
 
             <div class="d-flex justify-content-between mt-4">
                 <a th:href="@{/documents}" class="btn btn-secondary">

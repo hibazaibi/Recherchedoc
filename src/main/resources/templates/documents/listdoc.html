@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Archive des documents</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -69,21 +69,27 @@
     </style>
 </head>
 <body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container my-5">
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle"></i> <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <h1 class="mb-4 text-center">Archive des documents</h1>
     <div class="card-body">
         <div class="mb-4 d-flex justify-content-end">
-            <a th:href="@{/documents/add}" class="btn btn-success" style="margin-right:30px">
+            <a th:href="@{/documents/add}" class="btn btn-success" style="margin-right:30px" sec:authorize="hasRole('ADMIN')">
                 <i class="fas fa-plus-circle me-2"></i>Ajouter un Document
             </a>
-            <a th:href="@{/auteurs}" class="btn btn-primary" style="margin-right:30px">
+            <a th:href="@{/auteurs}" class="btn btn-primary" style="margin-right:30px" sec:authorize="hasRole('ADMIN')">
                 <i class="fas fa-users me-2"></i>Liste des Auteurs
             </a>
-            <a th:href="@{/themes}" class="btn btn-primary" style="background-color:#0a42a8">
+            <a th:href="@{/themes}" class="btn btn-primary" style="background-color:#0a42a8" sec:authorize="hasRole('ADMIN')">
                 <i class="fas fa-tags me-2"></i>Liste des Thèmes
             </a>
         </div>
-        </div>
+    </div>
     <form th:action="@{/documents/search}" method="post" class="row g-3 mb-4">
         <div class="col-md-3">
             <input type="text" name="titre" class="form-control" placeholder="Recherche par titre" />
@@ -92,11 +98,11 @@
             <input type="text" name="motsCles" class="form-control" placeholder="Recherche par mots-clés" />
         </div>
         <div class="col-md-3">
-                <select name="themeId" class="form-select">
-                    <option value="">Sélectionner Thème</option>
-                    <option th:each="theme : ${themes}" th:value="${theme.id}" th:text="${theme.nom}"></option>
-                </select>
-            </div>
+            <select name="themeId" class="form-select">
+                <option value="">Sélectionner Thème</option>
+                <option th:each="theme : ${themes}" th:value="${theme.id}" th:text="${theme.nom}"></option>
+            </select>
+        </div>
         <div class="col-md-3">
             <select name="auteurId" class="form-select">
                 <option value="">Sélectionner Auteur</option>
@@ -106,10 +112,16 @@
         <div class="col-12 text-center">
             <button type="submit" class="btn btn-primary">Rechercher</button>
         </div>
+        <div class="col-12">
+            <a href="/documents" class="btn btn-primary" th:if="${isSearchPage}" style="background-color: grey;border-color:grey;">
+                Retour à la liste complète
+            </a>
+        </div>
     </form>
 
+    <div class="alert alert-warning" th:if="${message}" th:text="${message}"></div>
     <div class="table-responsive">
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-bordered" th:if="${documents.size() > 0}">
             <thead>
             <tr>
                 <th>Titre</th>
@@ -119,14 +131,15 @@
                 <th>Résumé</th>
                 <th>Date de Publication</th>
                 <th>Fichier</th>
-                <th>Actions</th>
+                <th sec:authorize="hasRole('ADMIN')">Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="document : ${documents}">
                 <td th:text="${document.titre}">Titre</td>
                 <td th:text="${document.motsCles}">Mots-Clés</td>
-                <td th:text="${document.theme != null ? document.theme.nom : 'Pas de thème'}">Thème</td>                <td th:text="${document.auteur.nom}">Auteur</td>
+                <td th:text="${document.theme != null ? document.theme.nom : 'Pas de thème'}">Thème</td>
+                <td th:text="${document.auteur.nom}">Auteur</td>
                 <td th:text="${document.resume}">Résumé</td>
                 <td th:text="${document.publicationDate.toString()}">Date de Publication</td>
                 <td>
@@ -137,12 +150,12 @@
                     </div>
                     <div th:if="${document.fichier == null}" class="text-muted">Pas de fichier</div>
                 </td>
-                <td>
-                    <a th:href="@{/documents/edit/{id}(id=${document.id})}" class="btn btn-sm btn-warning">
+                <td sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/documents/edit/{id}(id=${document.id})}" class="btn btn-sm btn-warning" sec:authorize="hasRole('ADMIN')">
                         <i class="fas fa-edit"></i>
                     </a>
                     <a th:href="@{/documents/delete/{id}(id=${document.id})}"
-                       class="btn btn-sm btn-danger"
+                       class="btn btn-sm btn-danger" sec:authorize="hasRole('ADMIN')"
                        onclick="return confirm('Confirmer la suppression?');">
                         <i class="fas fa-trash-alt"></i>
                     </a>
@@ -157,6 +170,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </body>
 </html>
-
-
-

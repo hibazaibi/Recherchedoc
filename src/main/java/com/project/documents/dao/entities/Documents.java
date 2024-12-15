@@ -2,7 +2,6 @@ package com.project.documents.dao.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
@@ -10,7 +9,7 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
+@Builder
 
 public class Documents {
     @Id

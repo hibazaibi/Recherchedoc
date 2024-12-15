@@ -1,15 +1,16 @@
-package com.project.documents.services;
+package com.project.documents.business.servicesImpl;
 
+import com.project.documents.business.services.FileService;
 import com.project.documents.dao.entities.File;
 import com.project.documents.dao.repositories.FileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 @Service
-public class FileService implements FileService1 {
+public class FileServiceImpl implements FileService {
     private FileRepository attachmentRepository;
 
-    public FileService(FileRepository attachmentRepository) {
+    public FileServiceImpl(FileRepository attachmentRepository) {
         this.attachmentRepository = attachmentRepository;
     }
 
