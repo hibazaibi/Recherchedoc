@@ -34,9 +34,32 @@ public class DocumentsServiceImpl implements DocumentsService {
     }
     @Override
 
-    public void saveDocument(Documents document) {
-            documentRepository.save(document);
+    public void addDocument(DocumentForm documentForm) {
+        Documents document = new Documents();
+        document.setTitre(documentForm.getTitre());
+        document.setMotsCles(documentForm.getMotsCles());
+        document.setResume(documentForm.getResume());
+        document.setTypeFichier(documentForm.getTypeFichier());
+        document.setPublicationDate(documentForm.getPublicationDate());
+
+        Auteur auteur = auteurService.getAuteurById(documentForm.getAuteurId());
+        document.setAuteur(auteur);
+
+        Theme theme = themeService.getThemeById(documentForm.getThemeId());
+        document.setTheme(theme);
+
+        if (!documentForm.getFichier().isEmpty()) {
+            File attachment = null;
+            try {
+                attachment = fileService.saveAttachment(documentForm.getFichier());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            document.setFichier(attachment);
         }
+
+        documentRepository.save(document);
+    }
     @Override
 
         public void deleteDocument(Long id) {

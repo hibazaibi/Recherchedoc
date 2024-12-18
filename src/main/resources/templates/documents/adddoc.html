@@ -76,7 +76,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="fichier" class="form-label"><i class="fas fa-upload me-2"></i>Ajouter un fichier:</label>
-                        <input type="file" id="fichier" name="fichier" th:field="*{fichier}" class="form-control" required>
+                        <input type="file" id="fichier" name="fichier" th:field="*{fichier}" class="form-control" required accept=".pdf, .docx, .txt, .odt">
                         <div class="text-danger" th:if="${#fields.hasErrors('fichier')}" th:errors="*{fichier}"></div>
                     </div>
 
