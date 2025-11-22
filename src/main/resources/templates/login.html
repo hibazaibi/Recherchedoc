@@ -2,8 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Connexion</title>
     <style>
+        .navbar {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -54,21 +70,23 @@
         }
     </style>
 </head>
+
 <body>
+
 <div class="login-container">
-    <h1>Login</h1>
+    <h1>Se Connecter</h1>
     <div th:if="${param.error}" class="error">
-        Invalid username or password.
+        Nom d'utilisateur ou mot de passe invalide.
     </div>
 
     <div th:if="${param.logout}" class="success">
-        You have been logged out successfully.
+        Vous avez été déconnecté avec succès.
     </div>
 
     <form th:action="@{/login}" method="post">
         <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
+        <button type="submit">Confirmer</button>
     </form>
 </div>
 </body>

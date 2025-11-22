@@ -66,6 +66,13 @@
         .btn-danger:hover {
             background-color: #c82333;
         }
+        .table {
+            table-layout: fixed;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
     </style>
 </head>
 <body>
@@ -145,11 +152,11 @@
                     <a th:href="@{/documents/edit/{id}(id=${document.id})}" class="btn btn-sm btn-warning" sec:authorize="hasRole('ADMIN')">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a th:href="@{/documents/delete/{id}(id=${document.id})}"
-                       class="btn btn-sm btn-danger" sec:authorize="hasRole('ADMIN')"
-                       onclick="return confirm('Confirmer la suppression?');">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
+                    <form th:action="@{/documents/delete/{id}(id=${document.id})}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" sec:authorize="hasRole('ADMIN')" onclick="return confirm('Confirmer la suppression?');">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
             </tbody>

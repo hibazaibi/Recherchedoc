@@ -70,7 +70,7 @@ public class ThemeController {
         }
         return "redirect:/themes";
     }
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteTheme(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             themeService.deleteTheme(id);

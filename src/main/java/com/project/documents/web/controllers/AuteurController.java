@@ -74,7 +74,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
             return "redirect:/auteurs";
         }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteAuteur(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             auteurService.deleteAuteur(id);

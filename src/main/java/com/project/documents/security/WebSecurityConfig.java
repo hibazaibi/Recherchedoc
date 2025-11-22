@@ -1,6 +1,6 @@
 package com.project.documents.security;
 
-import com.project.documents.business.services.UserService;
+import com.project.documents.business.servicesImpl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/documents","/documents/search","/file/download/**","/","/logout").permitAll()
-                        .requestMatchers("/auteurs", "/themes", "/documents/add","/documents/edit/","/auteurs/add","/auteurs/edit/","/themes/add","/documents/edit/").hasRole("ADMIN") // ADMIN only
+                        .requestMatchers("/auteurs", "/themes", "/documents/add","/documents/edit/","/auteurs/add","/auteurs/edit/","/themes/add","/documents/edit/").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

@@ -9,13 +9,11 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
 public class Theme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

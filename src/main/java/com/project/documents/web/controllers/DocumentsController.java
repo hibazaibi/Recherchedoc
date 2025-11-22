@@ -58,7 +58,7 @@ import java.util.List;
         log.info("Adding a new document: {}", documentForm.getTitre());
         MultipartFile file = documentForm.getFichier();
         if (file.isEmpty() || !isAllowedFileType(file.getOriginalFilename())) {
-            bindingResult.rejectValue("fichier", "error.documentForm", "Invalid file type. Only PDF, DOCX, TXT, and ODT files are allowed.");
+            bindingResult.rejectValue("fichier", "error.documentForm", "Type de fichier invalide. Seuls les fichiers PDF, DOCX, TXT et ODT sont autorisés.");
         }
         if (bindingResult.hasErrors()) {
             log.warn("Validation errors occurred while adding a document: {}", bindingResult.getAllErrors());
@@ -138,13 +138,13 @@ import java.util.List;
     }
 
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteDocument(@PathVariable Long id,RedirectAttributes redirectAttributes) {
         log.info("Attempting to delete document with ID: {}", id);
         log.info("Document with ID: {} deleted successfully", id);
         try {
         documentService.deleteDocument(id);
-    redirectAttributes.addFlashAttribute("success", "Document deleted successfully.");
+    redirectAttributes.addFlashAttribute("success", "Document supprimé avec succès.");
             log.info("Document with ID: {} deleted successfully", id);
         } catch (Exception e) {
             log.error("Error occurred while deleting document ID: {}", id, e);
